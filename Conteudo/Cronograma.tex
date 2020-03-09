@@ -1,0 +1,51 @@
+
+
+\chapter{Metodologia}
+
+ Este capítulo fornece um acompanhamento da metodologia do projeto de TCC para em seguida apresentar o cronograma previsto de conclusão.
+ 
+ \section{Pesquisa}
+ 
+ O embasamento teórico para a escrita dos capítulos de fundamentação teórica e trabalhos relacionados se originou atráves de uma revisão de literatura em bases específicas como \emph{IEEEexplor, ACM Digital Library, Springer, Sciente Direct, Periódicos Capes e Elsevier}. A pesquisa nessas bases foi direcionada para duas áreas: Redes Definidas por Software e Segurança de Redes de Computadores. Além da leitura de artigos, livros didáticos e sites de instituições também foram utilizados como ferramentas para aprendizagem conceitual.
+\par O Objetivo principal deste trabalho, já citado anteriormente, é implementar um gerenciador SDN para 2 controladores com diferentes implementações e associados a serviços diferentes. Os controladores escolhidos para esse gerenciamento possuem serviços implementados pelos trabalhos de \citeonline{bomfim2}  e \citeonline{pablo}.
+\par O serviço implementado por \citeonline{pablo} se baseia no no modelo de gerência autonomômico em uma rede SDN. Ele propõe o MAdPE-k/SDN, um serviço distribuído nas camadas de infraestrutura e de aplicação da rede SDN, provendo autoproteção e autogerenciamento. O controlador utilizado foi o RYU, que possui implementação em Python. Já no trabalho de \citeonline{bomfim2}, foi desenvolvido um serviço de anonimização de endereços IP em uma rede SDN : o anonimizador BOMIP. O controlador utilizado por ele foi o RunOS, implementado em C/C++. 
+
+\section{Ferramentas e Implementação}
+
+\par Para a fase de experimentação e análise dos controladores, bem como para testar o gerenciador as seguintes ferramentas serão utilizadas:
+
+\begin{itemize}
+    \item Ambiente de implementação e execução na nuvem OpenStack;
+    \item VMs Linux;
+    \item Banco de dados (a definir);
+    \item Controladores Ryu e RunOS;
+    \item OpenVSwitch - Com suporte ao OpenFlow;
+    \item Sistema operacional Linux (configurações a serem consultadas)
+    \item Emuladores de rede Mininet e GNS3;
+    \item Virtual Box;
+\end{itemize}
+
+ A linguagem de programação para o desenvolvimento do módulo será um dos pontos a serem definidor após a análise da arquitetura dos controladores a serem gerenciados.
+
+
+ \section{Cronograma}
+ 
+ 
+  
+ \begin{table}[h]
+ \begin{center}
+ \caption{Plano para continuidade do TCC2}
+\begin{tabular}{p{6cm} | c|c|c|c|c|c}
+\hline 
+\textbf{Atividade} & Abril & Maio & Junho & Julho & Agosto & Setembro \\ \hline 
+Análise do controlador Ryu com o serviço com autonomicidade & X &  &  &  & & \\ \hline
+ Análise do controlador RunOS com o serviço de anonimização & & X & & & &\\ \hline
+Implementação do módulo gerenciador & & & X & X & X &\\ \hline
+ Testes, obtenção de resultados e apresentação & & & & X & X & X\\ \hline
+
+\end{tabular}
+\end{center}
+\label{cronograma}
+\end{table}
+
+

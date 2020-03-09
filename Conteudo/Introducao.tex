@@ -1,0 +1,34 @@
+\chapter{Introdução}
+
+\section{Contextualização}
+
+O desenvolvimento das redes tradicionais de computadores, principalmente, quando se fala em redes corporativas, envolve o aumento da infraestrutura física, o que implica também no aumento da complexidade de gerenciamento de elementos físicos como roteadores e \emph{switches}. Os equipamentos mais modernos normalmente são formados pela camada ou plano de controle e de dados, os quais possuem funções diferentes. A camada de controle é responsável pela lógica de encaminhamento dos dados no nível físico, logo, ele dita como o \emph{switch} deve lidar com os dados que passarem por ele. O plano de dados já é responsável por lidar com os dados propriamente ditos, os encaminhando para outros \emph{switches} e cumprindo com o que lhe foi atribuído pelo plano de controle. O maior desafio para as redes convencionais se encontra no fato que os elementos físicos possuem seus planos de controle configurados pelo próprio fabricante. Nesse contexto, quando se fala em redes heterogêneas, o gerenciamento se torna muito mais complexo para os administradores, que precisam lidar com diferentes tecnologias e diferentes protocolos. Esse desafio limita o desenvolvimento de experimentos e novas tecnologias para redes, tornando necessário que se estude novas abordagens que solucionem essa limitação.
+\par As Redes Definidas por Software surgiram neste cenário como solução para esses problemas decorrentes nas redes convencionais. As ideias por trás das redes programáveis surgiram a partir do final dos anos 90 com as redes ativas. Já por volta do início dos anos 2000 surgiu o conceito da separação dos plano de controle e de dados, uma das principais características das redes SDN. A partir de 2007, o projeto Ethane deu início à utilização de interfaces abertas nas redes SDN, possibilitando que o OpenFlow fosse implementado e posteriormente fosse viabilizado como interface \emph{SouthBound} padrão das redes SDN.\cite{Feamster:2013:RS:2559899.2560327} Dessa forma, as Redes Definidas por Software chegaram à arquitetura atual, onde o plano de controle é responsabilidade dos controladores SDN e o plano de dados permaneceu em função dos elementos físicos de encaminhamento, como roteadores e \emph{switches}.
+\par Por ser tão recente, as redes SDN ainda enfrentam muitos desafios, principalmente em torno da segurança de dados. Isso se deve porque as soluções atualmente existentes levam em consideração ataques nas redes tradicionais e a segurança não é uma característica inerente à arquitetura SDN. Além da modificação das ameaças das redes tradicionais, novas ameaças surgiram devido às próprias características do SDN, como centralização lógica e programabilidade da rede. Atualmente, já existem soluções que se concentram em fornecer segurança a partir de novas políticas administrativas, aplicações ligadas aos controladores e até modificações na própria arquitetura SDN.
+\par Além dos desafios em torno da segurança, um outro ponto constantemente debatido é em relação à disposição dos controladores em uma rede.Sabe-se que utilizar somente um controlador, pode gerar problemas relacionados à sobrecarga do mesmo, principalmente em redes complexas. A partir de então, sugeriu-se a utilização de mais controladores, que compartilham a visão global da rede podendo se dispor de forma hierárquica ou não. Entretanto, a forma como isso deve ocorrer e como esses controladores devem se comunicar ainda é motivo de estudos e experimentos.
+\par Neste contexto, este trabalho tem como propósito desenvolver um gerenciador para 2 controladores SDN em uma rede distribuída, utilizando os serviços de segurança implementados por \citeonline{pablo} e \citeonline{bomfim2}.  
+
+\section{Objetivos}
+
+\subsection{Objetivo Geral}
+
+Desenvolver um gerenciador SDN para dois controladores com diferentes implementações e utilizando serviços com propósitos de segurança.
+
+\subsection{Objetivos Específicos}
+
+\begin{itemize}
+    \item Analisar arquitetura dos controladores a serem gerenciados;
+    \item Projetar módulo de gerenciamento para 2 controladores pré-definidos, elicitando seus requisitos, de forma que seja escalável para outros controladores;
+    \item Analisar performance desse controlador;
+\end{itemize}
+
+
+\section{Estrutura do Documento}
+
+Para facilitar a navegação e melhor entendimento, este documento está estruturado com os seguintes capítulos:
+\begin{itemize}
+\item {Capítulo 1 - Introdução} 
+\item {Capítulo 2 - Fundamentação Teórica}
+\item {Capítulo 3 - Trabalhos Relacionados}
+\item {Capítulo 4 - Metodologia}
+\end{itemize}
