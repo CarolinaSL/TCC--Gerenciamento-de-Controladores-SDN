@@ -34,13 +34,12 @@ De acordo com \citeonline{Tennenhouse:1997:SAN:2288390.2288938,Bhattacharjee:199
 \par Por volta dos anos 2000, o volume de tráfego de rede continuava aumentando, e os pesquisadores buscavam balancear esse aumento de tráfego com características como confiabilidade, previsibilidade e performance da rede. Entretanto, o principal obstáculo se encontrava na integração inflexível entre o plano de controle e de dados nos roteadores e \emph{switches} convencionais. Essa integração dificultava  a exploração de novos protocolos nas redes, tornando os administradores dependentes do suporte da infraestrutura física. A partir de então outros estudos foram feitos para separar essas duas camadas, gerando inovações como a abertura de interface entre os planos de controle e de dados e também através de novas arquiteturas com centralização da lógica do controle da rede. Essas inovações são vistas respectivamente através da interface ForCES(\textit{Forwarding and Control Element Separation}) e das arquiteturas RCP (\textit{Rounting Control Protocol}) e SoftRouter.
 \cite{Nunes}
 \par A partir de 2005, a separação do plano de controle do plano de dados já era uma realidade, contudo, ainda era necessário experimentos em larga escala para validar as vantagens e desvantagens dessa separação, dessa forma, os campus das universidades se tornaram ambientes de experimentação de novas arquiteturas e protocolos. 
-Uma das arquiteturas propostas nessa 
-Proposto por \citeonline{Casado} e também desenvolvido na Universidade de Stanford, a arqui
-Nesse contexto, foi desenvolvido na Universidade de Stanford em 2008 um protocolo aberto de comunicação entre o controlador da rede e a infraestrutura física, tornando as redes SDN finalmente viáveis: o protocolo OpenFlow\cite{McKeown:2008:OEI:1355734.1355746}.
 
+Proposto por \citeonline{Casado} e desenvolvido na Universidade de Stanford, a arquitetura Ethane foi criada como solução para gestão de redes empresariais baseada em fluxos de pacotes e programada através de linguagem de linguagem de alto nível. Sua proposta era justamente separar o plano de controle do plano de dados, colocando toda a inteligência da rede em uma infraestrutura centralizada chamada controlador que se comunicaria com um switch Ethane, composto de uma tabela de fluxos e um canal seguro de comunicação.
 
+Tendo como base o Ethane, também foi desenvolvido na Universidade de Stanford em 2008 um protocolo aberto de comunicação entre o controlador da rede e a infraestrutura física, tornando as redes SDN finalmente viáveis: o protocolo OpenFlow, que posteriormente se tornaria padrão de interface na arquitetura SDN.\cite{McKeown:2008:OEI:1355734.1355746} 
 
-O OpenFlow é sucessor do padrão Ethane, proposto por \citeonline{Casado} e  também desenvolvido na Universidade de Stanford. Sua proposta consistia de dois elementos: o \emph{switch} Ethane, que possuía uma tabela de fluxos e um canal seguro de comunicação com o controlador; e o próprio controlador, que tomava decisões sobre o encaminhamento dos pacotes.  
+A partir de então o protocolo OpenFlow tem sido constantemente desenvolvido para prover melhores soluções para os problemas surgidos pela própria arquitetura SDN estando atualmente na versão 1.5, de acordo com \citeonline{SDNFoundation} . Dada sua importância para as redes SDN, mais detalhes de seu funcionamento serão expostos em uma subseção futura.
 
 \subsection{Arquitetura SDN}
 
@@ -85,12 +84,29 @@ No nível mais alto da arquitetura temos a camada de aplicação ou gerenciament
 
 \subsection{O Protocolo OpenFlow}
 
-%https://arxiv.org/pdf/1902.07913.pdf
+O protocolo OpenFlow tornou-se tão importante no desenvolvimento das redes SDN que tornou-se padrão na interface de comunicação entre a camada de infraestrutura e controladores. Isso deu porque ele permite acesso direto aos dispositivos de encaminhamento de dados, como switches e roteadores. De acordo com SDNBOOK , o Openflow pode ser comparado a um conjunto de instruções de uma CPU. Ele especifica instruções básicas que podem ser utilizadas por aplicações externas para programar os dispositivos de rede, assim como o conjunto de instruções de uma CPU tornam possíveis programar sistemas computacionais abstraindo a complexidade do hardware.
 
-%https://www.opennetworking.org/wp-content/uploads/2014/10/openflow-switch-v1.5.1.pdf
+\begin{figure}[!h]
+    \caption{Componentes de um switch Openflow}
+    \centering
+    \includegraphics[scale=0.4]{Imagens/mainComponentesOpenflow.png}
+    \label{mainComponents}
+    \legend{Fonte: \cite{openflowSpecification}}
+\end{figure}
 
-%https://books.google.com.br/books?id=ecM5CgAAQBAJ&pg=PT63&lpg=PT63&dq=role+controllers+sdn+master&source=bl&ots=mEkFEGV9AW&sig=ACfU3U3Hmiwz4MNiNYgl2HcoCGd_TA4J6Q&hl=pt-BR&sa=X&ved=2ahUKEwjowcH8n83nAhW0IbkGHX8cAm0Q6AEwEHoECAoQAQ#v=onepage&q&f=false
 
+Observando a Figura \ref{mainComponents}, percebe-se que os principais componentes Openflow são :
+
+\begin{itemize}
+    \item Controlador
+    \item Switch lógico OpenFlow :
+        \begin{itemize}
+            \item Portas
+            \item Canal Seguro
+            \item Tabelas de fluxos e entradas
+        \end{itemize}{}
+    \item Protocolo Openflow
+\end{itemize}{}
 
 
 \subsection{Desafios em Redes SDN}
@@ -99,7 +115,8 @@ Os benefícios das redes SDN ainda contrastam com diversos desafios ocasionados 
 
 \begin{figure}[!h]
     \caption{Desafios da arquitetura SDN.}
-    \centering\includegraphics[scale=0.5]{Imagens/desafiosSDN.png}
+    \centering
+    \includegraphics[scale=0.5]{Imagens/desafiosSDN.png}
     \label{Desafios.png}
     \legend{Fonte: \citeonline{JAMMAL}}
 \end{figure}
