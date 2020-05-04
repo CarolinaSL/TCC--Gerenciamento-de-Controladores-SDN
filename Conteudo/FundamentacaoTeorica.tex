@@ -5,6 +5,7 @@
 De acordo com a \citeonline{SDNFoundation} e \citeonline{ALSMADI}, o paradigma SDN é uma arquitetura emergente que se diferencia por ser  dinâmica, gerenciável, de bom custo-benefício e com boa adaptabilidade, o que a torna ideal para aplicações que exigem alta largura de banda e ainda pela natureza dinâmica dessas aplicações.
 \par A arquitetura SDN possui como principais características:
 
+
 \begin{itemize}
     \item \textbf{Diretamente programável}: O controle da rede é diretamente programável devido a seu desacoplamento das funções de encaminhamento;
     \item \textbf{Ágil}: A abstração do controle de encaminhamento de pacotes por meio dos controladores permite que os administradores ajustem dinamicamente o fluxo de tráfego;
@@ -81,6 +82,21 @@ No nível mais alto da arquitetura temos a camada de aplicação ou gerenciament
   
 \par Diante da descrição das camadas e componentes de uma rede SDN, percebe-se que as vantagens desta quanto à separação do plano de dados e de controle se estende para diversos ambientes de rede, configurando soluções com aplicações para redes empresariais, \emph{data centers}, redes com infraestrutura \emph{wireless} e redes reais ou de pequeno porte.\cite{Nunes}
 
+\subsubsection{Arquiteturas do plano de controle }
+
+Conceitualmente as redes SDN são descritas como uma rede logicamente centralizada em um único controlador. Entretanto, dada a extensão de uma rede , torna-se inviável que um único controlador gerencie. Considerando os problemas da escalabilidade de uma rede e sua segurança, existem  de acordo com a literatura algumas arquiteturas descritas de acordo com sua disposição física na rede \cite{bannour}:
+
+\begin{enumerate}
+    \item Controle SDN centralizado: A centralização do controle da rede em único controlador na rede seria uma ótima escolha em termos de simplicidades, contudo, como já falado anteriormente, à medida que a rede vai crescendo isso se torna um problema já que o controlador não vai conseguir lidar com o número crescente de requisições concorrentes. Além disso, ainda existe à questão de segurança relacionada, pois um único controlador não é confiável na existência de invasões. Tais problemas geraram estudos focados na colocação de múltiplos controladores em uma mesma rede.
+    
+    \item  Controle SDN distribuído: Como resposta aos problemas gerados com o controle centralizado, surgiram os controladores distribuídos, que são categorizados como:
+    \begin{itemize}
+
+        \item Controle Plano: Particiona-se a rede em diversas áreas, cada qual sendo controlada por um único controlador, que gerencia um subconjunto de \textit{switches} dessa mesma rede. Essa arquitetura provê escalabilidade e tolerância à falha através da comunicação entre os controladores distribuídos, que mantém uma visão global da rede. Onix, Hiperflow e Onos são exemplos de controladores que suportam essa arquitetura.
+        
+        \item Controle Hierárquico: A rede possui níveis de serviços providos pelos controladores, aumentando escalabilidade e performance.
+    \end{itemize}
+\end{enumerate}{}
 
 \subsection{O Protocolo OpenFlow}
 
@@ -98,15 +114,35 @@ O protocolo OpenFlow tornou-se tão importante no desenvolvimento das redes SDN 
 Observando a Figura \ref{mainComponents}, percebe-se que os principais componentes Openflow são :
 
 \begin{itemize}
-    \item Controlador
-    \item Switch lógico OpenFlow :
+    \item Controlador: Deve ser capaz de se comunicar com o \textit{Switch}, portanto deve entender o protocolo Openflow. É ele que determina quais são as instruções a serem enviadas, sendo que o Openflow só se responsabiliza em como ocorre essa comunicação.
+    \item \textit{Switch} lógico Openflow: É no \textit{switch} que se concentra as ações instruídas pelo controlador. Atualmente os \textit{switches} podem ser unicamente OpenFlow ou podem existir de forma híbrida com os protocolos tradicionais de switches Ethernet. Em ambos os casos o Openflow tem as seguintes definições:
         \begin{itemize}
-            \item Portas
-            \item Canal Seguro
-            \item Tabelas de fluxos e entradas
+            \item Portas: Como em qualquer \textit{switch}, tem o propósito de de receber os pacotes por uma porta de entrada e enviá-los a seu destino por meio da porta de saída, sendo que estas podem ainda serem divididas em portas físicas, lógicas e reservadas. Essas definições dependem inteiramente da perspectiva do fluxo dos pacotes.
+            \item Canal Seguro: O canal Openflow corresponde à interface existente entre o controlador e o \textit{switch}. Quaisquer pacotes ou configurações passam por esse canal. Para que a conexão seja estabelecida é necessário que seja configurado no \textit{switch} o ip do controlador, contudo, para o controlador é opcional saber  o ip do \textit{switch}. A conexão opera sobre TCP, send que a porta 6653 é a porta padrão para conexão. É opcional e recomendado que se utilize ainda encriptação via TLS. Após a conexão se estabelecer, o switch e o controlador trocam mensagem HELLO e negociam a versão do protocolo utilizado. 
+            \item Tabelas de fluxos e entradas: Um \textit{switch} lógico Openflow consiste de uma ou mais tabelas de fluxos e uma tabela de grupo. O controlador pode adicionar, atualizar ou deletar entradas de fluxo nas tabelas, sendo que cada tabela de fluxo contem um conjunto de entradas de fluxo. Cada entrada de fluxo possui campos de combinação, contadores e conjuntos de instruções a serem aplicadas mediante a correspondência dos pacotes processados.
+            Quando um pacote ingressa no \textit{switch}, analisa-se se ele corresponde a alguma das entradas de fluxo das tabelas. Se essa correspondência ocorre, as instruções incluídas naquela entrada são executadas. Caso a correspondência não ocorra, o \textit{switch} procurará pelas instruções configuradas previamente para esse caso, deletando o fluxo, passando para outra tabela ou ainda enviando o fluxo para que o controlador analise, neste último caso ocorre o chamado \textit{packet-in}.
+            
         \end{itemize}{}
-    \item Protocolo Openflow
+    \item Protocolo Openflow : O protocolo é implementado a partir de mensagens Openflow transmitidas pelo canal seguro. Cada tipo de mensagem possui uma estrutura específica, que começa com o cabeçalho comum OpenFlow e incluir outras estruturas de acordo com o tipo de mensagem. Abaixo, na Figura \ref{headerOpenflow}, vemos que o cabeçalho comum Openflow contém a versão do protocolo, o tipo de mensagem, seu comprimento e seu número identificador.
+    
+    
+\begin{figure}[!h]
+    \caption{Cabeçalho de uma mensagem Openflow}
+    \centering
+    \includegraphics[scale=0.7]{Imagens/headerOpenflow.png}
+    \label{headerOpenflow}
+    \legend{Fonte: }
+\end{figure}
+      
 \end{itemize}{}
+
+\subsubsection{Tipos de Mensagens}    
+
+O protocolo Openflow suporta 3 tipos de mensagens, tendo ainda subtipos: Controlador-para-Switch, assíncronas e simétricas. Nas mensagens \textit{Controller-To-Switch} é o controlador que inicia a comunicação e pode requerer ou não uma resposta do switch. As mensagens enviadas pelo controlador incluem requisições de features, configurações, modificação de estado do \textit{switch}, \textit, requisição do papel do controlador, entre outras.
+
+As mensagens assíncronas são aquelas enviadas somente pelo \textit{switch} sem que o controlador tenha solicitado. Isso normalmente ocorre na chegada de um fluxo de pacotes ou na mudança de estado do \textit{switch}. Como exemplos de mensagens temos o \textit{packtet-out}, \textit{flow-removed, port-status, role-status}, entre outras.
+
+Já as mensagens simétricas são enviadas sem solicitação de ambas as partes. Como exemplo temos as mensagens \textit{Hello, Echo, Error e Experimenter}.
 
 
 \subsection{Desafios em Redes SDN}
@@ -121,7 +157,6 @@ Os benefícios das redes SDN ainda contrastam com diversos desafios ocasionados 
     \legend{Fonte: \citeonline{JAMMAL}}
 \end{figure}
 
-\pagebreak
 
 \begin{itemize}
     \item Confiabilidade: Em redes convencionais, quando há falha de algum dos dispositivos da rede o fluxo é desviado para outros dispositivos de forma a manter o fluxo. Entretanto, nas redes SDN a falha no controle lógico se torna um grande problema para o quesito confiabilidade, principalmente se esse controle está de fato centralizado em somente um controlador. 
@@ -133,6 +168,9 @@ Os benefícios das redes SDN ainda contrastam com diversos desafios ocasionados 
     \item Segurança: A separação do plano de dados e controle tornou o gerenciamento de redes mais simplificado e dinâmico, contudo a segurança não é um quesito embutido nas características da arquitetura. Além disso, as tecnologias atuais de segurança foram pensadas especificamente para redes convencionais e justamente por ser um paradigma emergente, as redes SDN ainda não estão totalmente padronizadas, gerando ainda mais desafios para o quesito segurança.
     
 \end{itemize}
+
+
+
 
 
 \section{Conceitos de Segurança de Redes}
